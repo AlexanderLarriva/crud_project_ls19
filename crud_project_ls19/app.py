@@ -16,9 +16,11 @@ from crud_project_ls19.validator import validate
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
+
 @app.route('/')
 def index():
     return render_template('index.html')
+
 
 @app.get('/posts')
 def posts_get():
@@ -31,6 +33,7 @@ def posts_get():
         messages=messages,
         )
 
+
 @app.route('/posts/new')
 def new_post():
     post = {}
@@ -40,6 +43,7 @@ def new_post():
         post=post,
         errors=errors,
     )
+
 
 @app.post('/posts')
 def posts_post():
@@ -57,6 +61,7 @@ def posts_post():
     resp = make_response(redirect(url_for('posts_get')))
     resp.headers['X-ID'] = id
     return resp
+
 
 @app.route('/posts/<id>/update', methods=['GET', 'POST'])
 def post_update(id):
@@ -90,6 +95,12 @@ def post_update(id):
         flash('Post has been updated', 'success')
         return redirect(url_for('posts_get'))
 
-# BEGIN (write your solution here)
 
+# BEGIN (write your solution here)
+@app.post('/posts/<id>/delete')
+def post_delete(id):
+    repo = PostsRepository()
+    repo.destroy(id)
+    flash('Post has been removed')
+    return redirect(url_for('posts_get'))
 # END

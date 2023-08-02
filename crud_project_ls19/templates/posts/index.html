@@ -21,7 +21,10 @@
         <div>
         <a href="{{ url_for('post_update', id=post.id) }}">Edit</a> 
         <!-- BEGIN (write your solution here) -->
-          
+        <form action="{{ url_for('post_delete', id=post.id) }}" method="post" onsubmit="return confirm('Are you sure?')">
+        
+        <input type="submit" value="Remove">
+        </form>
         <!-- END -->
         </div>
       </li>
